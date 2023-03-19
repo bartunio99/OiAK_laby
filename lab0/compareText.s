@@ -21,8 +21,6 @@ buf: .ascii "       "
 buf_len = . - buf
 
 slowo: .ascii "kwiatek"
-slowo_len = . - slowo
-
 
 
 .global _start
@@ -40,17 +38,19 @@ mov $buf, %ecx
 mov $buf_len, %edx
 int $0x80
 
-mov $slowo_len, %esi            #licznik petli, ktora porownuje slowa znak po znaku - ma dlugosc rowna dlugosci slowa w pamieci
+mov $buf_len, %esi            #licznik petli, ktora porownuje slowa znak po znaku - ma dlugosc rowna dlugosci slowa w pamieci
+
+
+mov $buf, %ebx                  #wstaw wskaznik na pierwszy element bufora              
+mov $slowo, %ecx                #wskaznik na pierwszy element slowa porownywanego
 
 porownaj:
-mov $buf, %ebx                
-mov $slowo, %ecx
 
 mov (%ebx), %al                 #kopiuje wskazany bit do akumulatora
 mov (%ecx), %dl                 #kopiuje wskazany bit na rejestr dl
 cmp %dl, %al                    
 
-jne rozne                       
+jne rozne                       #jesli okaze sie ze ktorekolwiek bity sa rozne, skacze do etykiety rozne               
 
 inc %ebx                        #przesuwa wskazniki na nastepny
 inc %ecx
