@@ -80,6 +80,10 @@ or %ebx, %eax
 movl up, %ebx
 or %ebx, %eax
 
+mov %eax, control_word
+
+fldcw control_word
+
 
 #+0
 flds zero
